@@ -1,0 +1,141 @@
+@media screen and (max-width:700px) {
+  .container {
+    padding-top: 20px;
+  }
+
+  .sidebar {
+    position: inherit;
+    width: inherit;
+    margin: 0;
+    padding: 25px;
+    min-height: 200px;
+  }
+
+  .sidebar .sidebar-text,
+  .sidebar .pageslinks{
+    width: 100%;
+    text-align: center;
+  }
+
+  .sidebar .meta {
+    margin-left: 0;
+  }
+  .sidebar .meta .icon {
+    margin-right: 0;
+  }
+
+  .sidebar .sections {
+    margin: 10px 0 0 10px;
+  }
+
+  .sidebar .sections a {
+    font-size: 16px;
+    margin: 0 20px 0 0;
+    padding: 5px 10px;
+  }
+
+  .sidebar .me:hover .caption {
+    visibility: hidden;
+  }
+
+  .sidebar p.me{
+    margin-bottom: 0;
+  }
+
+  p.me+p.me{
+    margin-bottom: 30px;
+    margin-top: 0;
+  }
+  
+  .intro-header .post-heading h1{
+    font-size: 28px;
+  }
+  
+  .container-gallery{
+    margin: 0;
+    padding: 5px 25px;
+    width: inherit;
+    max-width: 100%;
+  }
+
+  .container-gallery .inside {
+    margin: 0;
+    padding: 0;
+  }
+
+  .content{
+    padding: 5px 0;
+  }
+  .content .listing li{
+    line-height: 19px;
+    height: 19px;
+  }
+  .content .listing li:after,
+  .content .listing h2:before,
+  .content .listing h2:after{
+    clear:both;
+  }
+  .content .listing li a{
+    max-width: calc(60%);
+    float: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .content .listing li span{
+  }
+  
+
+  #footer {
+    margin: 0 20px 10px 10px;
+  }
+  
+}
+
+@media screen and (max-width:750px) {
+  .banner.has-dots{
+    width: 100%;
+    overflow-x: hidden;
+  }
+  .sidebar a i {
+    font-size: 24px;
+    margin: auto 10px;
+  }
+}
+
+@media screen and (max-width:449px) {
+  .container-gallery .inside{
+    padding: 1.7em;
+  }
+}
+
+@media screen and (max-width:1311px){
+  .container-gallery .inside{
+    min-height: auto;
+  }
+
+  .widget-area{
+    max-width: 650px;
+    float: left;
+    padding: 1.875em 3.75em;
+    padding-top: 0;
+    min-height: 1200px;
+  }
+  .widget{
+    width: 93%;
+    float: left;
+  }
+  .widget.popular a img{
+    width: 30%;
+    height: auto;
+  }
+
+  .widget.popular a .caption{
+    display: none;
+  }
+
+  .widget.popular a:hover img{
+   opacity: 1; 
+  }
+}

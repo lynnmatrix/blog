@@ -1,0 +1,22 @@
+---
+title: 用什么写
+author: 林以明
+category: tools
+tags:
+  - jekyll
+  - hakyll
+date: '2016-11-25 19:01'
+comments: true
+---
+
+有请今天出场的两位女嘉宾，**DUANG**\
+1. [jekyll](https://jekyllrb.com/, "Transform your plain text into static blogs")([octopress](http://octopress.org/)) \
+2. [hakyll](https://jaspervdj.be/hakyll/) + [pandoc](http://pandoc.org/)
+ 
+ 我这个人喜新厌旧，因此诸如wordpress在开始就被直接pass，最后在这两套工具间徘徊。
+ 
+ Jekyll和Hakyll均支持markdown，这是必须的，主要是因为简单，我可不想用latex写blog，曾几何时为了用latex记课堂笔记可是折腾了好一番。
+ 
+ Ruby 和 Haskell都没用过，所以语言这项二者打平，因为这个原因也考虑过用node.js写的Hexo，但没google到其对bibtex的支持，暂不考虑。
+ 
+ Hakyll吸引我的是其对pandoc的支持，但atom没搜到hakyll相关的插件，而jekyll有。貌似jekyll现在更可控一些，所以不纠结了，先试试jekyll，等有闲了再来折腾hakyll。BTW，如果计划用markdown写paper，可以折腾[scholarlymarkdown](http://scholarlymarkdown.com/)。
