@@ -1,11 +1,24 @@
 # Temporarily store uncommited changes
 git stash 
 
-# Build new files
+#中文正则问题，所以这里临时改locale  https://recalll.co/app/?q=regex%20-%20RE%20error:%20illegal%20byte%20sequence%20on%20Mac%20OS%20X
+LC_ALL_BK=$LC_ALL
+LANG_BK=$LANG
+export LC_ALL=C
+export LANG=C
+echo "alter locale"
+locale
+
+echo "Build new site"
 stack exec site clean
 stack exec site build
 
-# Overwrite existing files with new files
+echo  "recover locale"
+export LC_ALL=$LC_ALL_BK
+export LANG=$LANG_BK
+locale
+
+echo "Overwrite existing files with new files"
 rsync -a --filter='P _site/'      \
          --filter='P _cache/'     \
          --filter='P .git/'       \
@@ -19,7 +32,7 @@ pushd ../lynnmatrix.github.com
 git add -A
 git commit -m "Publish."
 
-# Push
+echo "Push site to github pages"
 git push origin master:master
 popd
 
