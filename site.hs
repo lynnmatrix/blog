@@ -1,9 +1,32 @@
 --------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
-import           Data.Monoid (mappend)
+import           Data.Monoid (mappend, (<>))
 import           Hakyll
+import           Text.Regex
+import           System.FilePath
+import           Data.List
 
+-- Groups article items by year (reverse order).
+groupArticles :: [Item String] -> [(Int, [Item String])]
+groupArticles = fmap merge . group . fmap tupelise
+    where
+        merge :: [(Int, [Item String])] -> (Int, [Item String])
+        merge gs   = let conv (year, acc) (_, toAcc) = (year, toAcc ++ acc)
+                     in  foldr conv (head gs) (tail gs)
 
+        group ts   = groupBy (\(y, _) (y', _) -> y == y') ts
+        tupelise i = let path = (toFilePath . itemIdentifier) i
+                     in  case (articleYear . takeBaseName) path of
+                             Just year -> (year, [i])
+                             Nothing   -> error $
+                                              "[ERROR] wrong format: " ++ path
+
+-- Extracts year from article file name.
+articleYear :: FilePath -> Maybe Int
+articleYear s = fmap read $ fmap head $ matchRegex articleRx s
+
+articleRx :: Regex
+articleRx = mkRegex "^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})\\-(.+)$"
 --------------------------------------------------------------------------------
 main :: IO ()
 main = hakyll $ do
@@ -18,11 +41,11 @@ main = hakyll $ do
     match "js/*" $ do
         route   idRoute
         compile copyFileCompiler
-    
+
     match "CNAME" $ do
         route   idRoute
         compile copyFileCompiler
-    
+
     match (fromList ["about.rst", "contact.markdown"]) $ do
         route   $ setExtension "html"
         compile $ pandocCompiler
@@ -39,9 +62,16 @@ main = hakyll $ do
     create ["archive.html"] $ do
         route idRoute
         compile $ do
-            posts <- recentFirst =<< loadAll "posts/*"
+            posts <- fmap groupArticles $ recentFirst =<< loadAll "posts/*"
             let archiveCtx =
-                    listField "posts" postCtx (return posts) `mappend`
+                    listField "years"
+                    (
+                        field "year" (return . fst . itemBody) <>
+                        listFieldWith "articles" postCtx
+                            (return . snd . itemBody)
+                    )
+                    (sequence $ fmap (\(y, is) -> makeItem (show y, is))
+                                                      posts) <>
                     constField "title" "Archives"            `mappend`
                     siteCtx
 
@@ -54,9 +84,16 @@ main = hakyll $ do
     match "index.html" $ do
         route idRoute
         compile $ do
-            posts <- recentFirst =<< loadAll "posts/*"
+            posts <- fmap groupArticles $ recentFirst =<< loadAll "posts/*"
             let indexCtx =
-                    listField "posts" postCtx (return posts) `mappend`
+                    listField "years"
+                    (
+                        field "year" (return . fst . itemBody) <>
+                        listFieldWith "articles" postCtx
+                            (return . snd . itemBody)
+                    )
+                    (sequence $ fmap (\(y, is) -> makeItem (show y, is))
+                                                      posts) <>
                     constField "title" "Home"                `mappend`
                     siteCtx
 
@@ -74,12 +111,12 @@ postCtx =
     dateField "date" "%B %e, %Y" `mappend`
     constField "disqus_shortname" "lynnmatrix-github-com" `mappend`
     siteCtx
-    
+
 siteCtx :: Context String
-siteCtx = 
-    constField "baseurl" "http://linyiming.me" `mappend` 
+siteCtx =
+    constField "baseurl" "http://linyiming.me" `mappend`
     constField "site_description" "林以明の博客" `mappend`
     constField "twitter_username" "lynnmatrix" `mappend`
     constField "github_username" "lynnmatrix" `mappend`
     constField "google_username" "lynnmatrix" `mappend`
-    defaultContext    
+    defaultContext

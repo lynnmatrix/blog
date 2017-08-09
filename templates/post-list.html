@@ -1,10 +1,14 @@
 <div class="content">
-<ul class="listing">
-<h2 class="section">2016</h3>
-  $for(posts)$
-      <li>
-        <span>$date$</span>  <a href="$url$">$title$</a> 
-      </li>
+
+  $for(years)$
+  <h2 class="section">$year$</h2>
+  <ul class="listing">
+    $for(articles)$
+    <li>
+      <span>$date$</span> <a href="$url$">$title$</a>
+    </li>
+    $endfor$
+  </ul>
   $endfor$
-</ul>
+
 </div>

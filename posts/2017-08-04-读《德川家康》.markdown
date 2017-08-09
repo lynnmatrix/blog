@@ -1,7 +1,8 @@
 ---
-layout: post
 title: 读《德川家康》
 date: '2017-08-04 11:41'
+author: 林以明
+comments: true
 ---
 
 ## 缘起
